@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Пользователь{% endblock %}
+{% block title %}Profile of {{ user_obj.username }}{% endblock %}
 
 {% block menu %}
     {% if request.user == user_obj %}
@@ -15,14 +15,14 @@
     {% if user_obj.avatar %}
         <img class="avatar" src="{{ user_obj.avatar.url }}" width="250" height="250" alt="user picture">
     {% endif %}
-    <p>User name: {{ user_obj.username }}</p>
+    <p>User: {{ user_obj.username }}</p>
     <p>First name: {{ user_obj.first_name }}</p>
     <p>Last name: {{ user_obj.last_name }}</p>
     <p>Email: {{ user_obj.email }}</p>
     {% for review in reviews %}
         {{ review.product }}
         {{ review.review_text }}
-<hr>
+    <hr>
         {% empty %}
     {% endfor %}
     {% if user_obj.posts.image %}

@@ -39,10 +39,12 @@
         {% endif %}
     {% endfor %}</h2>
     {% if user.is_authenticated %}
-    {% if perms.webapp.change_article %}
-    <a class="mx-2" href="{% url 'product_update' product.pk %}">Task update</a>
+    {% if perms.webapp.change_products %}
+    <a class="mx-2" href="{% url 'product_update' product.pk %}">Product update</a>
     {% endif %}
-    <a href="{% url 'product_delete' product.pk %}">Task delete</a>
+    {% if perms.webapp.delete_products %}
+    <a href="{% url 'product_delete' product.pk %}">Product delete</a>
+    {% endif %}
     {% endif %}
 
     <h2>{% for review in reviews %}

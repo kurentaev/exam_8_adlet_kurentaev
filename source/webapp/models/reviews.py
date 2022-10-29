@@ -51,7 +51,3 @@ class Reviews(BaseModel):
         db_table = "review"
         verbose_name = "Review"
         verbose_name_plural = "Reviews"
-
-    def delete(self, using=None, keep_parents=False):
-        self.is_deleted = True
-        self.save()

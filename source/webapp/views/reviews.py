@@ -6,41 +6,21 @@ from webapp.models import Reviews, Products
 from webapp.forms import ReviewForm
 
 
-class SuccessDetailUrlMixin:
-    def get_success_url(self):
-        return reverse('product_detail', kwargs={'pk': self.object.pk})
-
-
-# class CustomUserPassesTestMixin(UserPassesTestMixin):
-#     groups = []
-#
-#     def test_func(self):
-#         return self.request.user.groups.filter(name__in=self.groups).exists()
-
-# class ReviewAddView(SuccessDetailUrlMixin, LoginRequiredMixin, CreateView):
-#     template_name = 'review/review_create.html'
-#     form_class = ProjectForm
-#     model = Projects
-#     groups = ['manager']
-
-# class ProjectAddView(CustomUserPassesTestMixin, SuccessDetailUrlMixin, LoginRequiredMixin, CreateView):
-#     template_name = 'review/review_create.html'
-#     form_class = ProjectForm
-#     model = Projects
-#     groups = ['manager']
-
-
-class ReviewUpdateView(LoginRequiredMixin, UpdateView):
+class ReviewUpdateView(PermissionRequiredMixin, UpdateView):
     template_name = 'review/review_update.html'
     form_class = ReviewForm
     model = Reviews
     context_object_name = 'review'
+    permission_required = 'webapp.change_reviews'
+
+    def has_permission(self):
+        return super().has_permission() or self.get_object().author == self.request.user
 
     def get_success_url(self):
         return reverse("product_detail", kwargs={"pk": self.object.product.pk})
 
 
-class ReviewAddView(SuccessDetailUrlMixin, LoginRequiredMixin, CreateView):
+class ReviewAddView(LoginRequiredMixin, CreateView):
     template_name = 'review/review_create.html'
     form_class = ReviewForm
     model = Reviews
@@ -53,18 +33,18 @@ class ReviewAddView(SuccessDetailUrlMixin, LoginRequiredMixin, CreateView):
         review.save()
         return redirect('product_detail', pk=product.pk)
 
-    # def has_permission(self):
-    #     print(self.request.user.is_superuser)
-    #     project = get_object_or_404(Projects, pk=self.kwargs.get('pk'))
-    #     return (self.request.user == project.user.filter(username=self.request.user) and super().has_permission() or
-    #             self.request.user.is_superuser)
 
-
-class ReviewDeleteView(LoginRequiredMixin, DeleteView):
+class ReviewDeleteView(PermissionRequiredMixin, DeleteView):
     template_name = 'review/review_delete.html'
     model = Reviews
     context_object_name = 'review'
-    success_url = reverse_lazy('index')
+    permission_required = 'webapp.delete_reviews'
+
+    def has_permission(self):
+        return super().has_permission() or self.get_object().author == self.request.user
+
+    def get(self, request, *args, **kwargs):
+        return super().delete(request, *args, **kwargs)
 
     def get_success_url(self):
         return reverse("product_detail", kwargs={"pk": self.object.product.pk})
