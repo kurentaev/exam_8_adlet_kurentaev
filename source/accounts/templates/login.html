@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+    <form action="" method="POST">
+        <div class="form">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% bootstrap_button button_class="btn-secondary" button_type="submit" content='Login' %}
+        </div>
+    </form>
+    <h5 class="mt-4">Don't have an account?</h5>
+    <a href="{% url 'register' %}" class="btn btn-secondary" >Register</a>
+{% endblock %}

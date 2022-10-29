@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Users
+{% endblock %}
+
+{% block content %}
+<h1>Select users:</h1>
+    <form action="{% url 'project_add_user' projects.pk %}" method="POST">
+        <div class="form">
+            {% csrf_token %}
+            {% include 'partial/task_form.html' with button_text='Edit' %}
+        </div>
+    </form>
+{% endblock %}

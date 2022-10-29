@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ projects.summary }}
+{% endblock %}
+
+{% block menu %}
+{% if user.is_authenticated %}
+<a class="nav-link active" href="{% url 'project_add' %}">Project add</a>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="card project mb-4">
+        <div class="card-body">
+            <h2>Project: {{ projects.summary }}</h2>
+            <h2>Description: {{ projects.description | linebreaks }}</h2>
+            <h2>Start date: {{ projects.start_date }}</h2>
+            <h2>{% if projects.end_date == None %}
+                {% else %}
+                End date: {{ projects.end_date }}
+                {% endif %}
+            </h2>
+            <h2>
+            {% if projects.user.all|length > 0 %}
+                Users:
+            {% else %}
+            {% endif %}
+            {% for user in projects.user.all %}
+                {{ user.username }}{% if not forloop.last %},
+                {% endif %}
+            {% endfor %}</h2>
+            {% if user.is_authenticated %}
+                <a class="mx-2" href="{% url 'project_update' projects.pk %}">Project update</a>
+                <a class="mx-2" href="{% url 'project_delete' projects.pk %}">Project delete</a>
+                <a class="mx-2" href="{% url 'project_todo_add' projects.pk %}">Add task</a>
+                <a class="mx-2" href="{% url 'project_add_user' projects.pk %}">Delete or add user</a>
+            {% endif %}
+        </div>
+    </div>
+    {% for task in tasks %}
+        <div class="card task mb-3">
+            <div class="card-body">
+                <h2>Task: {{ task.summary }}</h2>
+                <h2>Status: {{ task.status }}</h2>
+                <h2>{% if task.type.all|length > 0 %}
+                    Type:
+                    {% else %}
+                    {% endif %}
+                    {% for type in task.type.all %}
+                    {{ type.type_name }}{% if not forloop.last %},
+                    {% endif %}
+                    {% endfor %}</h2>
+                <a class="mx-2" href="{% url 'todo_detail' task.pk %}">Detail view</a>
+                {% if user.is_authenticated %}
+                <a href="{% url 'todo_delete' task.pk %}">Delete task</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
