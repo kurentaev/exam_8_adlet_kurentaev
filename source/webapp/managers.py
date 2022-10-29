@@ -2,7 +2,7 @@ from django.db.models import Manager
 from webapp.querysets import CustomBaseQuerySet
 
 
-class TaskProjectManager(Manager):
+class ProductProjectManager(Manager):
     def get_or_none(self, pk=None):
         try:
             return self.get_queryset().get(pk=pk)
