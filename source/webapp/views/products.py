@@ -2,7 +2,6 @@ from django.contrib.auth.mixins import UserPassesTestMixin, PermissionRequiredMi
 from django.urls import reverse_lazy, reverse
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 from webapp.forms import ProductsListForm
-
 from webapp.models import Products
 
 

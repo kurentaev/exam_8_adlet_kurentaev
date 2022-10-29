@@ -3,7 +3,9 @@
 
 {% block menu %}
 {% if user.is_authenticated %}
-<a class="nav-link active" href="{% url 'product_add' %}">Product add</a>
+{% if perms.webapp.add_products %}
+<a class="nav-link active" href="{% url 'product_add' %}">Task add</a>
+{% endif %}
 {% endif %}
 {% endblock %}
 
@@ -12,17 +14,32 @@
       <main role="main" class="inner cover">
         <p class="lead">
             <h4>{% if products|length == 0 %}
-                products not found
+                Products not found
                 {% else %}
                 {% endif %}</h4>
             {% for product in products %}
               <div class="card task mb-3">
                 <div class="card-body">
-                    {{ product.image }}
-                    {% if product.image %}
-                        <img class="avatar"  src="{{ product.image.url }}" width="250" height="250" alt="user picture">
-                    {% endif %}
-                    <h2><a class="mx-2" href="{% url 'product_detail' product.pk %}">{{ product.name }}</a></h2>
+                    <table>
+                      <tr>
+                        <td>
+                            {% if product.image %}
+                                <img class="avatar" src="{{ product.image.url }}" width="250" height="250" alt="user picture">
+                            {% else %}
+                                <img class="avatar" src="uploads/zaglushka.jpg" width="250" height="250" alt="user picture">
+                            {% endif %}
+                        </td>
+                        <td>
+                          <h2><a class="mx-2" href="{% url 'product_detail' product.pk %}">{{ product.name }}</a></h2>
+                          <h2 class="mx-2">Category: {{ product.get_category_display }}</h2>
+                          <h2 class="mx-2">Rate: {% with avg_ratings=product.avg_ratings %}
+                            {{ avg_ratings.rate__avg|default:0 }}
+                            {% endwith %}</h2>
+                        </td>
+                      </tr>
+                    </table>
+
+
                     <h2>
                         {% if task.project == None %}
                         {% else %}

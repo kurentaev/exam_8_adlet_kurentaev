@@ -20,12 +20,16 @@
     <p>Last name: {{ user_obj.last_name }}</p>
     <p>Email: {{ user_obj.email }}</p>
     {% for review in reviews %}
-        {{ review.product }}
-        {{ review.review_text }}
-    <hr>
-        {% empty %}
+        <div class="card task mb-3">
+            <div class="card-body">
+                <h2>Product: {{ review.product }}</h2>
+                <h2>Review: {{ review.review_text }}</h2>
+                <h2>Rate: {{ review.rate }}</h2>
+                {% if user.is_authenticated %}
+                    <a class="mx-2" href="{% url 'review_update' review.pk %}">Update review</a>
+                    <a class="mx-2" href="{% url 'review_delete' review.pk %}">Delete review</a>
+                {% endif %}
+            </div>
+        </div>
     {% endfor %}
-    {% if user_obj.posts.image %}
-
-    {% endif %}
 {% endblock %}

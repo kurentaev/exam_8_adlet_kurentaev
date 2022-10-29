@@ -3,8 +3,6 @@ from webapp.views.base import ProductIndexView
 from webapp.views.products import ProductView, ProductAddView, ProductUpdateView, ProductDeleteView
 from webapp.views.reviews import ReviewAddView, ReviewUpdateView, ReviewDeleteView
 
-# from webapp.views.projects import ProjectView, ProjectUpdateView, ProjectAddView, ProjectTaskAddView, ProjectDeleteView
-# from webapp.views.projects import ProjectUserAddView
 
 urlpatterns = [
     path('', ProductIndexView.as_view(), name='index'),

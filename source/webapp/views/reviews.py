@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse, reverse_lazy
-from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
+from django.urls import reverse
+from django.views.generic import CreateView, UpdateView, DeleteView
 from webapp.models import Reviews, Products
 from webapp.forms import ReviewForm
 

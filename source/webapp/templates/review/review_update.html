@@ -5,7 +5,7 @@ Project update
 {% endblock %}
 
 {% block content %}
-<h1>Project update</h1>
+<h1>Review update</h1>
     <form action="{% url 'review_update' review.pk %}" method="POST">
         <div class="form">
             {% include 'partial/product_form.html' with button_text='Edit' %}
