@@ -48,9 +48,9 @@ class CustomUserCreationForm(forms.ModelForm):
     def save(self, commit=True):
         user = super().save(commit=False)
         user.set_password(self.cleaned_data["password"])
-        # user.groups.add('user')
         if commit:
             user.save()
+            user.groups.add('user')
         return user
 
     class Meta:

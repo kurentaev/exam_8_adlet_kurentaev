@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Пользователь{% endblock %}
+
+{% block menu %}
+    {% if request.user == user_obj %}
+    <li><a href="{% url 'change' user_obj.pk %}">Edit user</a></li>
+    <li><a href="{% url 'password_change' %}">Change password</a></li>
+    {% endif %}
+{% endblock %}
+
+
+{% block content %}
+    <h1>Profile of {{ user_obj.get_full_name|default:user_obj.username }}</h1>
+    {% if user_obj.avatar %}
+        <img class="avatar" src="{{ user_obj.avatar.url }}" width="250" height="250" alt="user picture">
+    {% endif %}
+    <p>User name: {{ user_obj.avatar.url }}</p>
+    <p>User name: {{ user_obj.username }}</p>
+    <p>Name: {{ user_obj.first_name }}</p>
+    <p>Email: {{ user_obj.email }}</p>
+    <p>About user: {{ user_obj.about_user }}</p>
+    <p>Phone number: {{ user_obj.phone_number }}</p>
+    <p>Gender: {{ user_obj.gender }}</p>
+    <p>Liked posts: {{ user_obj.liked_posts.count }}</p>
+    <p>Subscriptions: {{ user_obj.subscriptions.count }}</p>
+    <p>Subscribers: {{ user_obj.subscribers.count }}</p>
+    <p>Commented posts: {{ user_obj.commented_posts.count }}</p>
+    <p>Posts: {{ posts.count }}</p>
+    {% for post in posts %}
+        <a href="{% url 'post_detail' user.pk %}">{{ post.description }}<img class="avatar" src="{{ post.image.url }}" width="250" height="250" alt="user picture"></a>
+        {% empty %}
+    {% endfor %}
+    {% if user_obj.posts.image %}
+
+    {% endif %}
+{% endblock %}

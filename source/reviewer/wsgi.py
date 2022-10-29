@@ -1,5 +1,5 @@
 """
-WSGI config for reviewer project.
+WSGI config for reviewer review.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

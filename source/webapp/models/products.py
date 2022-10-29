@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Avg
 from webapp.managers import ProductProjectManager
 from webapp.models import BaseModel
 from webapp.models.categories import CategoryChoices
@@ -35,6 +36,11 @@ class Products(BaseModel):
     )
 
     objects = ProductProjectManager()
+
+    def avg_ratings(self):
+        return self.products.aggregate(
+            Avg('rate')
+        )
 
     def __str__(self):
         return f"{self.name}"

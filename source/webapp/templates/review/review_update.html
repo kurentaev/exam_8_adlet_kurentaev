@@ -6,9 +6,9 @@ Project update
 
 {% block content %}
 <h1>Project update</h1>
-    <form action="{% url 'project_update' project.pk %}" method="POST">
+    <form action="{% url 'review_update' review.pk %}" method="POST">
         <div class="form">
-            {% include 'partial/task_form.html' with button_text='Edit' %}
+            {% include 'partial/product_form.html' with button_text='Edit' %}
         </div>
     </form>
 {% endblock %}

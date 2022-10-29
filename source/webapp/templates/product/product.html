@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ task.summary }}
+{% endblock %}
+
+{% block menu %}
+{% if user.is_authenticated %}
+<a class="nav-link active" href="{% url 'product_add' %}">Task add</a>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+    <h2 class="mt-2">Product: {{ product.name }}</h2>
+    <h2>Category: {{ product.category }}</h2>
+    <h2>Category: {{ product.get_sum }}</h2>
+    <h2>Description: {{ product.description | linebreaks}}</h2>
+    <h2>Rate: {% with avg_ratings=product.avg_ratings %}
+    {{ avg_ratings.rate__avg|default:0 }}
+    {% endwith %}</h2>
+
+    {{ product.image }}
+    {% if product.image %}
+        <img class="avatar"  src="{{ product.image.url }}" width="250" height="250" alt="user picture">
+    {% endif %}
+    <h2>
+    {% if task.project == None %}
+    {% else %}
+        Project: {{ task.project }}
+    {% endif %}
+    </h2>
+    <h2>
+    {% if task.type.all|length > 0 %}
+        Type:
+    {% else %}
+    {% endif %}
+    {% for type in task.type.all %}
+        {{ type.type_name }}{% if not forloop.last %},
+        {% endif %}
+    {% endfor %}</h2>
+    {% if user.is_authenticated %}
+    {% if perms.webapp.change_article %}
+    <a class="mx-2" href="{% url 'product_update' product.pk %}">Task update</a>
+    {% endif %}
+    <a href="{% url 'product_delete' product.pk %}">Task delete</a>
+    {% endif %}
+
+    <h2>{% for review in reviews %}
+        {{ review.author }}
+        {{ review.email }}
+        {{ review.review_text }}
+        {{ review.rate }}
+
+        <a class="mx-2" href="{% url 'review_update' review.pk %}">Update review</a>
+        <a class="mx-2" href="{% url 'review_delete' review.pk %}">Delete review</a>
+        <hr>
+        {% empty %}
+    {% endfor %}</h2>
+        <a class="mx-2" href="{% url 'review_add' product.pk %}">Add review</a>
+
+{% endblock %}

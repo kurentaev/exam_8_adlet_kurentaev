@@ -1,5 +1,5 @@
 """
-ASGI config for reviewer project.
+ASGI config for reviewer review.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
