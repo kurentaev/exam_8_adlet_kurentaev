@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-{{ task.summary }}
+Product
 {% endblock %}
 
 {% block menu %}
@@ -19,7 +19,7 @@
                 {% if product.image %}
                     <img class="avatar" src="{{ product.image.url }}" width="250" height="250" alt="user picture">
                 {% else %}
-                    <img class="avatar" src="uploads/zaglushka.jpg" width="250" height="250" alt="user picture">
+                    <img class="avatar" src="../../uploads/zaglushka.jpg" width="250" height="250" alt="user picture">
                 {% endif %}
             </td>
             <td>
