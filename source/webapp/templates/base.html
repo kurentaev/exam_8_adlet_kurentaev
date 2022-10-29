@@ -19,11 +19,19 @@
           <a href="{% url 'index' %}"><h3 class="masthead-brand">To-Do List</h3></a>
           <nav class="nav nav-masthead justify-content-center">
             {% if user.is_authenticated %}
-            <div class="user">User: {{user.username}}</div>
+
+            <div class="user">User: <a href="{% url 'profile' user.pk %}">{{user.username}}</a></div>
             {% endif %}
               {% block menu %}{% endblock %}
             <a class="nav-link active" href="{% url 'index' %}">Tasks</a>
-
+              {% if user.is_authenticated %}
+                    <form class="nav-link active" action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <input class="logout" type="submit" value="Logout">
+                    </form>
+              {% else %}
+              <a class="nav-link active" href="{% url 'login' %}">Login</a>
+              {% endif %}
           </nav>
         </div>
      </header>

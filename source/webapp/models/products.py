@@ -49,7 +49,3 @@ class Products(BaseModel):
         db_table = "product"
         verbose_name = "Product"
         verbose_name_plural = "Products"
-
-    def delete(self, using=None, keep_parents=False):
-        self.is_deleted = True
-        self.save()

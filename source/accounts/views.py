@@ -1,10 +1,11 @@
 from django.contrib.auth import authenticate, login, logout, get_user_model, update_session_auth_hash
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import TemplateView, CreateView, DetailView, UpdateView
-from accounts.forms import LoginForm, CustomUserCreationForm
+from accounts.forms import LoginForm, CustomUserCreationForm, UserChangeForm, PasswordChangeForm
 
 
 class LoginView(TemplateView):
@@ -42,7 +43,7 @@ def logout_view(request):
 class RegisterView(CreateView):
     template_name = 'register.html'
     form_class = CustomUserCreationForm
-    success_url = '/'
+    success_url = 'index'
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -59,18 +60,18 @@ class ProfileView(LoginRequiredMixin, DetailView):
     model = get_user_model()
     template_name = 'user_detail.html'
     context_object_name = 'user_obj'
-    # paginate_related_by = 5
-    # paginate_related_orphans = 0
+    paginate_related_by = 5
+    paginate_related_orphans = 0
 
-    # def get_context_data(self, **kwargs):
-    #     posts = self.get_object().posts.all()
-    #     paginator = Paginator(posts, self.paginate_related_by, orphans=self.paginate_related_orphans)
-    #     page_number = self.request.GET.get('page', 1)
-    #     page = paginator.get_page(page_number)
-    #     kwargs['page_obj'] = page
-    #     kwargs['posts'] = page.object_list
-    #     kwargs['is_paginated'] = page.has_other_pages()
-    #     return super().get_context_data(**kwargs)
+    def get_context_data(self, **kwargs):
+        posts = self.get_object().reviews.all()
+        paginator = Paginator(posts, self.paginate_related_by, orphans=self.paginate_related_orphans)
+        page_number = self.request.GET.get('page', 1)
+        page = paginator.get_page(page_number)
+        kwargs['page_obj'] = page
+        kwargs['reviews'] = page.object_list
+        kwargs['is_paginated'] = page.has_other_pages()
+        return super().get_context_data(**kwargs)
 
 
 class UserChangeView(LoginRequiredMixin, UpdateView):
